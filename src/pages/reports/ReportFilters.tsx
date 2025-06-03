@@ -34,11 +34,11 @@ export default function ReportFilters() {
   const { toast } = useToast();
 
   const [filters, setFilters] = useState<ReportFilterDTO>({
-    regionId: "",
-    departmentId: "",
-    municipalityId: "",
-    businessId: "",
-    categoryId: "",
+    regionId: undefined,
+    departmentId: undefined,
+    municipalityId: undefined,
+    businessId: undefined,
+    categoryId: undefined,
     fechaInicio: undefined,
     fechaFin: undefined,
   });
@@ -58,17 +58,26 @@ export default function ReportFilters() {
   }, []);
 
   useEffect(() => {
-    if (filters.regionId) {
+    if (filters.regionId && filters.regionId !== "all") {
       loadDepartments(filters.regionId);
-      setFilters((prev) => ({ ...prev, departmentId: "", municipalityId: "" }));
+      setFilters((prev) => ({
+        ...prev,
+        departmentId: undefined,
+        municipalityId: undefined,
+      }));
+      setMunicipalities([]);
+    } else {
+      setDepartments([]);
       setMunicipalities([]);
     }
   }, [filters.regionId]);
 
   useEffect(() => {
-    if (filters.departmentId) {
+    if (filters.departmentId && filters.departmentId !== "all") {
       loadMunicipalities(filters.departmentId);
-      setFilters((prev) => ({ ...prev, municipalityId: "" }));
+      setFilters((prev) => ({ ...prev, municipalityId: undefined }));
+    } else {
+      setMunicipalities([]);
     }
   }, [filters.departmentId]);
 
@@ -129,7 +138,7 @@ export default function ReportFilters() {
     try {
       // Validate that at least one filter is selected
       const hasFilters = Object.values(filters).some(
-        (value) => value !== "" && value !== undefined,
+        (value) => value !== undefined && value !== null,
       );
 
       if (!hasFilters) {
@@ -157,11 +166,11 @@ export default function ReportFilters() {
 
   const clearFilters = () => {
     setFilters({
-      regionId: "",
-      departmentId: "",
-      municipalityId: "",
-      businessId: "",
-      categoryId: "",
+      regionId: undefined,
+      departmentId: undefined,
+      municipalityId: undefined,
+      businessId: undefined,
+      categoryId: undefined,
       fechaInicio: undefined,
       fechaFin: undefined,
     });
@@ -205,16 +214,14 @@ export default function ReportFilters() {
             <div className="space-y-2">
               <Label htmlFor="region">Región</Label>
               <Select
-                value={filters.regionId || ""}
-                onValueChange={(value) =>
-                  handleFilterChange("regionId", value || "")
-                }
+                value={filters.regionId || "all"}
+                onValueChange={(value) => handleFilterChange("regionId", value)}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Todas las regiones" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todas las regiones</SelectItem>
+                  <SelectItem value="all">Todas las regiones</SelectItem>
                   {regions.map((region) => (
                     <SelectItem key={region.id} value={region.id}>
                       {region.nombre}
@@ -228,9 +235,9 @@ export default function ReportFilters() {
             <div className="space-y-2">
               <Label htmlFor="department">Departamento</Label>
               <Select
-                value={filters.departmentId || ""}
+                value={filters.departmentId || "all"}
                 onValueChange={(value) =>
-                  handleFilterChange("departmentId", value || "")
+                  handleFilterChange("departmentId", value)
                 }
                 disabled={!filters.regionId}
               >
@@ -238,7 +245,7 @@ export default function ReportFilters() {
                   <SelectValue placeholder="Todos los departamentos" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todos los departamentos</SelectItem>
+                  <SelectItem value="all">Todos los departamentos</SelectItem>
                   {departments.map((department) => (
                     <SelectItem key={department.id} value={department.id}>
                       {department.nombre}
@@ -252,9 +259,9 @@ export default function ReportFilters() {
             <div className="space-y-2">
               <Label htmlFor="municipality">Municipio</Label>
               <Select
-                value={filters.municipalityId || ""}
+                value={filters.municipalityId || "all"}
                 onValueChange={(value) =>
-                  handleFilterChange("municipalityId", value || "")
+                  handleFilterChange("municipalityId", value)
                 }
                 disabled={!filters.departmentId}
               >
@@ -262,7 +269,7 @@ export default function ReportFilters() {
                   <SelectValue placeholder="Todos los municipios" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todos los municipios</SelectItem>
+                  <SelectItem value="all">Todos los municipios</SelectItem>
                   {municipalities.map((municipality) => (
                     <SelectItem key={municipality.id} value={municipality.id}>
                       {municipality.nombre}
@@ -276,16 +283,16 @@ export default function ReportFilters() {
             <div className="space-y-2">
               <Label htmlFor="business">Comercio</Label>
               <Select
-                value={filters.businessId || ""}
+                value={filters.businessId || "all"}
                 onValueChange={(value) =>
-                  handleFilterChange("businessId", value || "")
+                  handleFilterChange("businessId", value)
                 }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Todos los comercios" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todos los comercios</SelectItem>
+                  <SelectItem value="all">Todos los comercios</SelectItem>
                   {businesses.map((business) => (
                     <SelectItem key={business.id} value={business.id}>
                       {business.nombre}
@@ -299,16 +306,16 @@ export default function ReportFilters() {
             <div className="space-y-2">
               <Label htmlFor="category">Categoría de Queja</Label>
               <Select
-                value={filters.categoryId || ""}
+                value={filters.categoryId || "all"}
                 onValueChange={(value) =>
-                  handleFilterChange("categoryId", value || "")
+                  handleFilterChange("categoryId", value)
                 }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Todas las categorías" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">Todas las categorías</SelectItem>
+                  <SelectItem value="all">Todas las categorías</SelectItem>
                   {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
                       {category.nombre}
