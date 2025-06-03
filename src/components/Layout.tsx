@@ -157,9 +157,14 @@ function Sidebar() {
           <p className="text-sm text-muted-foreground">Gestión Comercial</p>
         </div>
         <nav className="space-y-2">
-          {navigation.map((item) => (
-            <NavLink key={item.href} item={item} />
-          ))}
+          <NavLink
+            key="/"
+            item={{
+              label: "Inicio",
+              href: "/",
+              icon: Home,
+            }}
+          />
         </nav>
       </div>
     </div>
