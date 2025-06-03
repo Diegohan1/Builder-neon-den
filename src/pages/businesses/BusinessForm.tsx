@@ -241,8 +241,7 @@ export default function BusinessForm() {
               <Label htmlFor="owner">Propietario *</Label>
               <Select
                 value={formData.ownerId || undefined}
-                onValueChange={(value) => handleInputChange('ownerId', value)}
-              >
+                onValueChange={(value) => handleInputChange("ownerId", value)}
               >
                 <SelectTrigger
                   className={getFieldError("ownerId") ? "border-red-500" : ""}
