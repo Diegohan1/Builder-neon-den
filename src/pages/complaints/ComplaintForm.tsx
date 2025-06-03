@@ -290,11 +290,10 @@ export default function ComplaintForm() {
             <div className="space-y-2">
               <Label htmlFor="municipality">Municipio</Label>
               <Select
-                value={formData.municipalityId}
-                onValueChange={(value) =>
-                  handleInputChange("municipalityId", value)
-                }
+                value={formData.municipalityId || undefined}
+                onValueChange={(value) => handleInputChange('municipalityId', value)}
                 disabled={!formData.regionId || municipalities.length === 0}
+              >
               >
                 <SelectTrigger
                   className={
@@ -322,8 +321,9 @@ export default function ComplaintForm() {
             <div className="space-y-2">
               <Label htmlFor="business">Comercio</Label>
               <Select
-                value={formData.businessId}
-                onValueChange={(value) =>
+                value={formData.businessId || undefined}
+                onValueChange={(value) => handleInputChange('businessId', value)}
+              >
                   handleInputChange("businessId", value)
                 }
               >
@@ -353,8 +353,9 @@ export default function ComplaintForm() {
             <div className="space-y-2">
               <Label htmlFor="category">Categoría de la Queja</Label>
               <Select
-                value={formData.categoryId}
-                onValueChange={(value) =>
+                value={formData.categoryId || undefined}
+                onValueChange={(value) => handleInputChange('categoryId', value)}
+              >
                   handleInputChange("categoryId", value)
                 }
               >
@@ -383,11 +384,10 @@ export default function ComplaintForm() {
             {/* Descripción */}
             <div className="space-y-2">
               <Label htmlFor="description">Descripción de la Queja</Label>
-              <Textarea
-                id="description"
-                placeholder="Describa detalladamente su queja..."
-                value={formData.descripcion}
-                onChange={(e) =>
+              <Select
+                value={formData.regionId || undefined}
+                onValueChange={(value) => handleInputChange('regionId', value)}
+              >
                   handleInputChange("descripcion", e.target.value)
                 }
                 className={getFieldError("descripcion") ? "border-red-500" : ""}
