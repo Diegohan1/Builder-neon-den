@@ -294,7 +294,6 @@ export default function ComplaintForm() {
                 onValueChange={(value) => handleInputChange('municipalityId', value)}
                 disabled={!formData.regionId || municipalities.length === 0}
               >
-              >
                 <SelectTrigger
                   className={
                     getFieldError("municipalityId") ? "border-red-500" : ""
