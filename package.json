@@ -8,9 +8,7 @@
     "build": "vite build",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
-    "typecheck": "tsc",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
